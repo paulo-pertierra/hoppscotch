@@ -97,7 +97,7 @@
                       "
                       :placeholder="`${t('count.value', { count: index + 1 })}`"
                       :envs="liveEnvs"
-                      :name="'value' + index"
+                      :name="env.key"
                       :secret="tab.isSecret"
                       :readonly="isViewer && !tab.isSecret"
                     />

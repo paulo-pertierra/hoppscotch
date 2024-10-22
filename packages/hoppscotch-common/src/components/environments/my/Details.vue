@@ -84,13 +84,13 @@
                       :placeholder="`${t('count.variable', {
                         count: index + 1,
                       })}`"
-                      :name="'param' + index"
+                      name="secret"
                     />
                     <SmartEnvInput
                       v-model="env.value"
                       :placeholder="`${t('count.value', { count: index + 1 })}`"
                       :envs="liveEnvs"
-                      :name="'value' + index"
+                      :name="env.key"
                       :secret="tab.isSecret"
                       :select-text-on-mount="
                         env.key ? env.key === editingVariableName : false

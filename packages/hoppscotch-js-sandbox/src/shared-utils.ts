@@ -95,7 +95,7 @@ const getSharedMethods = (envs: TestResult["envs"]) => {
       getEnv(key, updatedEnvs),
       O.fold(
         () => undefined,
-        (env) => String(env.value)
+        (env) => env.secret ? "Naughty naughty! Don't access this." : String(env.value)
       )
     )
 
