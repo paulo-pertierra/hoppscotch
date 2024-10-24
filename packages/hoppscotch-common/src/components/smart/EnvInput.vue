@@ -5,9 +5,9 @@
     >
       <input
         v-if="isSecret"
-        id="secret"
+        :id="props.id"
+        :name="props.name"
         v-model="secretText"
-        name="secret"
         :placeholder="t('environment.secret_value')"
         class="flex flex-1 bg-transparent px-4"
         :class="styles"
@@ -111,6 +111,8 @@ const props = withDefaults(
     contextMenuEnabled?: boolean
     secret?: boolean
     autoCompleteEnv?: boolean
+    id: string,
+    name: string
   }>(),
   {
     modelValue: "",
@@ -127,6 +129,8 @@ const props = withDefaults(
     contextMenuEnabled: true,
     secret: false,
     autoCompleteEnvSource: false,
+    id: "",
+    name: ""
   }
 )
 
