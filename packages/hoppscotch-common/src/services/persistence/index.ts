@@ -65,7 +65,7 @@ import {
   REST_COLLECTION_SCHEMA,
   REST_HISTORY_ENTRY_SCHEMA,
   REST_TAB_STATE_SCHEMA,
-  SECRET_ENVIRONMENT_VARIABLE_SCHEMA,
+  //  SECRET_ENVIRONMENT_VARIABLE_SCHEMA,
   SELECTED_ENV_INDEX_SCHEMA,
   SETTINGS_SCHEMA,
   SOCKET_IO_REQUEST_SCHEMA,
@@ -451,9 +451,12 @@ export class PersistenceService extends Service {
 
     try {
       if (secretEnvironmentsData) {
-        let parsedSecretEnvironmentsData = JSON.parse(secretEnvironmentsData)
+        // Hoppsec: const since no need to reassign
+        const parsedSecretEnvironmentsData = JSON.parse(secretEnvironmentsData)
 
         // Validate data read from localStorage
+        // Hoppsec: Disabled because AES encryption changes the hash and the schema validation fails
+        /* Hoppsec: Uncomment when needed
         const result = SECRET_ENVIRONMENT_VARIABLE_SCHEMA.safeParse(
           parsedSecretEnvironmentsData
         )
@@ -467,7 +470,7 @@ export class PersistenceService extends Service {
             JSON.stringify(parsedSecretEnvironmentsData)
           )
         }
-
+        */
         this.secretEnvironmentService.loadSecretEnvironmentsFromPersistedState(
           parsedSecretEnvironmentsData
         )
