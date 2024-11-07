@@ -111,7 +111,7 @@ const props = withDefaults(
     contextMenuEnabled?: boolean
     secret?: boolean
     autoCompleteEnv?: boolean
-    id: string,
+    id: string
     name: string
   }>(),
   {
@@ -130,7 +130,7 @@ const props = withDefaults(
     secret: false,
     autoCompleteEnvSource: false,
     id: "",
-    name: ""
+    name: "",
   }
 )
 

@@ -1,5 +1,17 @@
 import { Service } from "dioc"
 import { reactive, computed } from "vue"
+import CryptoJS from "crypto-js"
+
+const ENCRYPTION_KEY =
+  process.env.DATA_ENCRYPTION_KEY || "hoppscotch-default-key"
+
+function encrypt(value: string) {
+  return CryptoJS.AES.encrypt(value, ENCRYPTION_KEY).toString()
+}
+
+function decrypt(value: string) {
+  return CryptoJS.AES.decrypt(value, ENCRYPTION_KEY).toString(CryptoJS.enc.Utf8)
+}
 
 /**
  * Defines a secret environment variable.
@@ -8,6 +20,7 @@ export type SecretVariable = {
   key: string
   value: string
   varIndex: number
+  encrypted: boolean
 }
 
 /**
@@ -32,7 +45,16 @@ export class SecretEnvironmentService extends Service {
    * @param secretVars List of secret variables
    */
   public addSecretEnvironment(id: string, secretVars: SecretVariable[]) {
-    this.secretEnvironments.set(id, secretVars)
+    const encryptedSecretVars = secretVars.map((secretVar) =>
+      secretVar.encrypted
+        ? secretVar
+        : {
+            ...secretVar,
+            value: encrypt(secretVar.value),
+            encrypted: true,
+          }
+    )
+    this.secretEnvironments.set(id, encryptedSecretVars)
   }
 
   /**
@@ -50,7 +72,13 @@ export class SecretEnvironmentService extends Service {
    */
   public getSecretEnvironmentVariable(id: string, varIndex: number) {
     const secretVars = this.getSecretEnvironment(id)
-    return secretVars?.find((secretVar) => secretVar.varIndex === varIndex)
+    const decryptedSecretVars = secretVars?.map((secretVar) => ({
+      ...secretVar,
+      value: secretVar.encrypted ? decrypt(secretVar.value) : secretVar.value,
+    }))
+    return decryptedSecretVars?.find(
+      (secretVar) => secretVar.varIndex === varIndex
+    )
   }
 
   /**
