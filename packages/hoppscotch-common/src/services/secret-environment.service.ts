@@ -87,10 +87,6 @@ export class SecretEnvironmentService extends Service {
    * @param varIndex Index of the variable in the environment
 =   */
   public getSecretEnvironmentVariableValue(id: string, varIndex: number) {
-    console.log(
-      "getSecretEnvironmentVariableValue: ",
-      this.getSecretEnvironmentVariable(id, varIndex)?.value
-    )
     const secretVar = this.getSecretEnvironmentVariable(id, varIndex)
     return secretVar?.value
   }
